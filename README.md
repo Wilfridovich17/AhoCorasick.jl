@@ -3,7 +3,7 @@
 A Julia implementation of the Aho-Corasick algorithm for fast string
 searching.
 
-# Example
+## Example
 
 ```julia
 using AhoCorasick
@@ -14,11 +14,11 @@ build(ac)
 search(ac, "alpha and beta")
 ```
 
-# Features
+## Features
 
 - Can be run in case-sensitive or case-insensitive mode
 - Optional keys can be attached to each word in the automaton
 
-# License
+## License
 
 GNU GPLv3
