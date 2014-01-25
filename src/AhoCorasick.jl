@@ -1,5 +1,5 @@
 module AhoCorasick
-
-# package code goes here
-
-end # module
+    include("node.jl")
+    include("automaton.jl")
+    export Automaton, build, add, search
+end 
