@@ -8,6 +8,9 @@ type Automaton
 end
  
 function add (ac :: Automaton, word :: UTF8String, key :: Any = NoKey())
+    if ac.constructed
+        error("Can't add words to an automaton that has already been initialized.")
+    end
     if !ac.case_sensitive
         text = lowercase(word)
     end
@@ -19,6 +22,9 @@ function add (ac :: Automaton, word :: String, key :: Any = NoKey())
 end
  
 function build(ac :: Automaton)
+    if ac.constructed
+        return
+    end
     ac.root.fail = ac.root
     for child in values (ac.root.children)
         child.fail = ac.root
@@ -26,6 +32,7 @@ function build(ac :: Automaton)
     for child in values (ac.root.children)
         add_fail_transition!(child)
     end
+    ac.constructed = true
 end
 
 type Match
