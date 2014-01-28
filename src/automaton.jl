@@ -7,20 +7,16 @@ type Automaton
         new(Node(), case_sensitive, false)
 end
  
-function add (ac :: Automaton, word :: UTF8String, key :: Any = NoKey())
+function add (ac :: Automaton, word :: String, key :: Any = NoKey())
     if ac.constructed
         error("Can't add words to an automaton that has already been initialized.")
     end
     if !ac.case_sensitive
-        text = lowercase(word)
+        word = lowercase(word)
     end
-    add (ac.root, word, key)
+    add(ac.root, utf8(word), key)
 end
 
-function add (ac :: Automaton, word :: String, key :: Any = NoKey())
-    add (ac, utf8(word), key)
-end
- 
 function build(ac :: Automaton)
     if ac.constructed
         return
@@ -41,10 +37,11 @@ type Match
     length :: Int
 end
  
-function search (ac :: Automaton, text :: UTF8String)
+function search (ac :: Automaton, text :: String)
     if !ac.case_sensitive
         text = lowercase (text)
     end
+    text = utf8(text)
     i = 0
     node = ac.root
     matches = Match[]
@@ -63,8 +60,4 @@ function search (ac :: Automaton, text :: UTF8String)
         text = text[2:end]
     end
     matches
-end
-
-function search (ac :: Automaton, text :: String)
-    search(ac, utf8(text))
 end

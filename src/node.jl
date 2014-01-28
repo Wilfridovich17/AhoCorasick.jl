@@ -6,7 +6,8 @@ type Node
     children :: Dict{Char, Node}
     fail :: Union(Nothing, Node)
     
-    Node(depth :: Int = 0) = new(depth, nothing, Dict{Char,Node}(), nothing)
+    Node(depth :: Int = 0) = 
+        new(depth, nothing, Dict{Char,Node}(), nothing)
 end
 
 type NoKey end
