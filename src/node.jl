@@ -1,16 +1,21 @@
 import Base.show
 
+type NullKey end
+ 
 type Node
     depth :: Int
     key :: Any
     children :: Dict{Char, Node}
-    fail :: Union(Nothing, Node)
-    
-    Node(depth :: Int = 0) = 
-        new(depth, nothing, Dict{Char,Node}(), nothing)
-end
+    fail :: Node
 
-type NoKey end
+    Node(depth :: Int = 0) = (
+        n = new(); 
+        n.children = Dict{Char,Node}();
+        n.depth = depth;
+        n.key = NullKey;
+        n
+    )
+end
 
 function Base.show(io :: IO, node :: Node)
     write(io, "Node(depth=$(node.depth))")
@@ -28,13 +33,18 @@ function add(node :: Node, word :: UTF8String, key :: Any)
     end
 end
 
+function search_without_fail_transition(node :: Node, c :: Char)
+    if haskey (node.children, c)
+        node.children[c]
+    else
+        node
+    end
+end
+
 function search (node :: Node, c :: Char)
     if haskey (node.children, c)
         node.children[c]
     elseif node.depth == 0
-        node
-    # Only necessary during build, inefficient
-    elseif node.fail == nothing
         node
     else
         search(node.fail, c)
@@ -43,7 +53,7 @@ end
 
 function add_fail_transition!(node :: Node)
     for (c,child) in node.children
-        child.fail = search(node.fail, c)
+        child.fail = search_without_fail_transition(node.fail, c)
     end
     for child in values(node.children)
         add_fail_transition!(child)
@@ -51,5 +61,5 @@ function add_fail_transition!(node :: Node)
 end
 
 function is_terminal(node :: Node)
-    node.key != nothing
+    node.key != NullKey
 end

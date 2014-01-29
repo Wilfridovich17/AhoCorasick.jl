@@ -7,7 +7,7 @@ type Automaton
         new(Node(), case_sensitive, false)
 end
  
-function add (ac :: Automaton, word :: String, key :: Any = NoKey())
+function add (ac :: Automaton, word :: String, key :: Any = nothing)
     if ac.constructed
         error("Can't add words to an automaton that has already been initialized.")
     end
