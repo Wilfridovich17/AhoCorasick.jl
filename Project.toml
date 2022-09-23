@@ -1,0 +1,4 @@
+name = "AhoCorasick"
+uuid = "d3f0555b-2bad-4562-9b77-2c235c75f977"
+authors = ["wilfridovich17 <wilfridojpg@data-developer.ru>"]
+version = "0.1.0"

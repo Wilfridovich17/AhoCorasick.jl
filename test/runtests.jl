@@ -1,5 +1,3 @@
-include("../src/AhoCorasick.jl")
-
 using AhoCorasick
 
 function test()
